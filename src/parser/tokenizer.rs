@@ -11,6 +11,7 @@ pub struct PythonCoreTokenizer {
 
 pub trait Tokenizer {
     fn new() -> PythonCoreTokenizer;
+    fn tokenize(buffer: &str) -> Result<Box<Vec<Box<TokenSymbol>>>, String>;
     fn is_keyword(text: &str, start: u32, end: u32) -> Option<TokenSymbol>;
 }
 
@@ -22,6 +23,11 @@ impl Tokenizer for PythonCoreTokenizer {
         PythonCoreTokenizer {
 
         }
+    }
+
+    fn tokenize(buffer: &str) -> Result<Box<Vec<Box<TokenSymbol>>>, String> {
+        let a = Box::new(Vec::from( [ Box::new(TokenSymbol::PyEof) ] ));
+        Ok(a)
     }
 
     fn is_keyword(text: &str, start_pos: u32, end_pos: u32) -> Option<TokenSymbol> {
