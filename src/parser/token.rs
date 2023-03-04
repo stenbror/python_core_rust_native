@@ -1,6 +1,10 @@
 
 #[derive(Clone)]
 pub enum TokenSymbol {
+    PyEof,
+    PyNewline(u32, u32),
+    PyIndent,
+    PyDedent,
     PyFalse(u32, u32),
     PyNone(u32, u32),
     PyTrue(u32, u32),
@@ -36,4 +40,10 @@ pub enum TokenSymbol {
     PyWhile(u32, u32),
     PyWith(u32, u32),
     PyYield(u32, u32),
+
+
+    PyName(u32, u32, Box<str>),
+    PyNumber(u32, u32,Box<str>),
+    PyString(u32, u32, Box<Vec<Box<str>>>),
+    PyTypeComment(u32, u32, Box<str>)
 }
