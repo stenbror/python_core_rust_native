@@ -1,12 +1,21 @@
 
+use crate::parser::token::TokenSymbol;
+
+// Data structure for object ///////////////////////////////////////////////////////////////////////
+
 pub struct PythonCoreTokenizer {
 
 }
+
+// Declaration of trait for Tokenizer //////////////////////////////////////////////////////////////
 
 pub trait Tokenizer {
     fn new() -> PythonCoreTokenizer;
     fn is_keyword(text: &str, start: u32, end: u32) -> Option<u32>;
 }
+
+
+// Start of implementation of trait Tokenizer //////////////////////////////////////////////////////
 
 impl Tokenizer for PythonCoreTokenizer {
     fn new() -> PythonCoreTokenizer {
