@@ -11,7 +11,7 @@ pub struct PythonCoreTokenizer {
 
 pub trait Tokenizer {
     fn new() -> PythonCoreTokenizer;
-    fn is_keyword(text: &str, start: u32, end: u32) -> Option<u32>;
+    fn is_keyword(text: &str, start: u32, end: u32) -> Option<TokenSymbol>;
 }
 
 
@@ -24,43 +24,43 @@ impl Tokenizer for PythonCoreTokenizer {
         }
     }
 
-    fn is_keyword(text: &str, start_pos: u32, end_pos: u32) -> Option<u32> {
+    fn is_keyword(text: &str, start_pos: u32, end_pos: u32) -> Option<TokenSymbol> {
         match text {
-            "False" => Some(1),
-            "None" => Some(2),
-            "True" => Some(3),
-            "and" => Some(4),
-            "as" => Some(5),
-            "assert" => Some(6),
-            "async" => Some(7),
-            "await" => Some(8),
-            "break" => Some(9),
-            "class" => Some(10),
-            "continue" => Some(11),
-            "def" => Some(12),
-            "del" => Some(13),
-            "elif" => Some(14),
-            "else" => Some(15),
-            "except" => Some(16),
-            "finally" => Some(17),
-            "for" => Some(18),
-            "from" => Some(19),
-            "global" => Some(20),
-            "if" => Some(21),
-            "import" => Some(22),
-            "in" => Some(23),
-            "is" => Some(24),
-            "lambda" => Some(25),
-            "nonlocal" => Some(26),
-            "not" => Some(27),
-            "or" => Some(28),
-            "pass" => Some(29),
-            "raise" => Some(30),
-            "return" => Some(31),
-            "try" => Some(32),
-            "while" => Some(33),
-            "with" => Some(34),
-            "yield" => Some(35),
+            "False" => Some(TokenSymbol::PyFalse(start_pos, end_pos)),
+            "None" => Some(TokenSymbol::PyNone(start_pos, end_pos)),
+            "True" => Some(TokenSymbol::PyTrue(start_pos, end_pos)),
+            "and" => Some(TokenSymbol::PyAnd(start_pos, end_pos)),
+            "as" => Some(TokenSymbol::PyAs(start_pos, end_pos)),
+            "assert" => Some(TokenSymbol::PyAssert(start_pos, end_pos)),
+            "async" => Some(TokenSymbol::PyAsync(start_pos, end_pos)),
+            "await" => Some(TokenSymbol::PyAwait(start_pos, end_pos)),
+            "break" => Some(TokenSymbol::PyBreak(start_pos, end_pos)),
+            "class" => Some(TokenSymbol::PyClass(start_pos, end_pos)),
+            "continue" => Some(TokenSymbol::PyContinue(start_pos, end_pos)),
+            "def" => Some(TokenSymbol::PyDef(start_pos, end_pos)),
+            "del" => Some(TokenSymbol::PyDel(start_pos, end_pos)),
+            "elif" => Some(TokenSymbol::PyElif(start_pos, end_pos)),
+            "else" => Some(TokenSymbol::PyElse(start_pos, end_pos)),
+            "except" => Some(TokenSymbol::PyExcept(start_pos, end_pos)),
+            "finally" => Some(TokenSymbol::PyFinally(start_pos, end_pos)),
+            "for" => Some(TokenSymbol::PyFor(start_pos, end_pos)),
+            "from" => Some(TokenSymbol::PyFrom(start_pos, end_pos)),
+            "global" => Some(TokenSymbol::PyGlobal(start_pos, end_pos)),
+            "if" => Some(TokenSymbol::PyIf(start_pos, end_pos)),
+            "import" => Some(TokenSymbol::PyImport(start_pos, end_pos)),
+            "in" => Some(TokenSymbol::PyIn(start_pos, end_pos)),
+            "is" => Some(TokenSymbol::PyIs(start_pos, end_pos)),
+            "lambda" => Some(TokenSymbol::PyLambda(start_pos, end_pos)),
+            "nonlocal" => Some(TokenSymbol::PyNonlocal(start_pos, end_pos)),
+            "not" => Some(TokenSymbol::PyNot(start_pos, end_pos)),
+            "or" => Some(TokenSymbol::PyOr(start_pos, end_pos)),
+            "pass" => Some(TokenSymbol::PyPass(start_pos, end_pos)),
+            "raise" => Some(TokenSymbol::PyRaise(start_pos, end_pos)),
+            "return" => Some(TokenSymbol::PyReturn(start_pos, end_pos)),
+            "try" => Some(TokenSymbol::PyTry(start_pos, end_pos)),
+            "while" => Some(TokenSymbol::PyWhile(start_pos, end_pos)),
+            "with" => Some(TokenSymbol::PyWith(start_pos, end_pos)),
+            "yield" => Some(TokenSymbol::PyYield(start_pos, end_pos)),
             _ => None
         }
     }
