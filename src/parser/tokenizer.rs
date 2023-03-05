@@ -104,6 +104,8 @@ impl Tokenizer for PythonCoreTokenizer {
             ( '%', _ , _ )      => Some( (TokenSymbol::PyModulo(start_pos, start_pos + 1), 1) ),
             ( '@', '=', _ )     => Some( (TokenSymbol::PyMatricesAssign(start_pos, start_pos + 2), 2) ),
             ( '@', _ , _ )      => Some( (TokenSymbol::PyMatrices(start_pos, start_pos + 1), 1) ),
+            ( ':', '=', _ )     => Some( (TokenSymbol::PyColonAssign(start_pos, start_pos + 2), 2) ),
+            ( ':', _ , _ )      => Some( (TokenSymbol::PyColon(start_pos, start_pos + 1), 1) ),
             _ => None
         }
     }
