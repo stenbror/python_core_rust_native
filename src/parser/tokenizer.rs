@@ -15,6 +15,7 @@ pub trait Tokenizer {
     fn new(buffer: String, tab_size: u8) -> PythonCoreTokenizer;
     fn tokenize(&self) -> Result<Box<Vec<Box<TokenSymbol>>>, String>;
     fn is_keyword(&self, text: &str, start: u32, end: u32) -> Option<TokenSymbol>;
+    fn is_operator_or_delimiter(&self, c1: char, c2: char, c3: char, start_pos: u32) -> Option<(TokenSymbol, u8)>;
 }
 
 
@@ -71,6 +72,16 @@ impl Tokenizer for PythonCoreTokenizer {
             "while" => Some(TokenSymbol::PyWhile(start_pos, end_pos)),
             "with" => Some(TokenSymbol::PyWith(start_pos, end_pos)),
             "yield" => Some(TokenSymbol::PyYield(start_pos, end_pos)),
+            _ => None
+        }
+    }
+
+    fn is_operator_or_delimiter(&self, c1: char, c2: char, c3: char, start_pos: u32) -> Option<(TokenSymbol, u8)> {
+        match ( c1, c2, c3 ) {
+            ( '*', '*', '=' )   => Some( (TokenSymbol::PyPowerAssign(start_pos,start_pos + 3), 3) ),
+            ( '*', '*', _ )     => Some( (TokenSymbol::PyPower(start_pos,start_pos + 2), 2) ),
+            ( '*', '=', _ )     => Some( (TokenSymbol::PyMulAssign(start_pos,start_pos + 2), 2) ),
+            ( '*', _ , _ )      => Some( (TokenSymbol::PyMul(start_pos,start_pos + 1), 1) ),
             _ => None
         }
     }
