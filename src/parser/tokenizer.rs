@@ -90,6 +90,11 @@ impl Tokenizer for PythonCoreTokenizer {
             ( '<', '<', _ )     => Some( (TokenSymbol::PyShiftLeft(start_pos,start_pos + 2), 2) ),
             ( '<', '=', _ )     => Some( (TokenSymbol::PyLessEqual(start_pos,start_pos + 2), 2) ),
             ( '<', _ , _ )      => Some( (TokenSymbol::PyLess(start_pos,start_pos + 1), 1) ),
+            ( '>', '>', '=' )   => Some( (TokenSymbol::PyShiftRightAssign(start_pos,start_pos + 3), 3) ),
+            ( '>', '>', _ )     => Some( (TokenSymbol::PyShiftRight(start_pos,start_pos + 2), 2) ),
+            ( '>', '=', _ )     => Some( (TokenSymbol::PyGreaterEqual(start_pos,start_pos + 2), 2) ),
+            ( '>', _ , _ )      => Some( (TokenSymbol::PyGreater(start_pos,start_pos + 1), 1) ),
+            ( '.', '.', '.' )   => Some( (TokenSymbol::PyEllipsis(start_pos,start_pos + 3), 3) ),
             _ => None
         }
     }

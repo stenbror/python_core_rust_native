@@ -71,6 +71,7 @@ pub enum TokenSymbol {
     PyComma(u32, u32),
     PyColon(u32, u32),
     PyDot(u32, u32),
+    PyEllipsis(u32, u32),
     PySemiColon(u32, u32),
     PyAssign(u32, u32),
     PyArrow(u32, u32),
