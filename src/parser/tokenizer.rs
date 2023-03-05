@@ -116,6 +116,9 @@ impl Tokenizer for PythonCoreTokenizer {
             ( '~', _ , _ )      => Some( (TokenSymbol::PyBitInvert(start_pos, start_pos + 1), 1) ),
             ( ';', _ , _ )      => Some( (TokenSymbol::PySemiColon(start_pos, start_pos + 1), 1) ),
             ( ',', _ , _ )      => Some( (TokenSymbol::PyComma(start_pos, start_pos + 1), 1) ),
+            ( '=', '=', _ )     => Some( (TokenSymbol::PyEqual(start_pos, start_pos + 2), 2) ),
+            ( '=', _ , _ )      => Some( (TokenSymbol::PyAssign(start_pos, start_pos + 1), 1) ),
+            ( '!', '=', _ )     => Some( (TokenSymbol::PyNotEqual(start_pos, start_pos + 2), 2) ),
             _ => None
         }
     }
