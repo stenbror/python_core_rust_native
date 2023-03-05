@@ -1014,7 +1014,7 @@ mod tests {
     }
 
     #[test]
-    fn operator_or_left_paren() {
+    fn operator_or_delimiter_left_paren() {
         let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_operator_or_delimiter('(', ' ', ' ', 1);
         match symbol {
@@ -1024,7 +1024,7 @@ mod tests {
     }
 
     #[test]
-    fn operator_or_left_bracket() {
+    fn operator_or_delimiter_left_bracket() {
         let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_operator_or_delimiter('[', ' ', ' ', 1);
         match symbol {
@@ -1034,7 +1034,7 @@ mod tests {
     }
 
     #[test]
-    fn operator_or_left_curly() {
+    fn operator_or_delimiter_left_curly() {
         let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_operator_or_delimiter('{', ' ', ' ', 1);
         match symbol {
@@ -1044,7 +1044,7 @@ mod tests {
     }
 
     #[test]
-    fn operator_or_right_paren() {
+    fn operator_or_delimiter_right_paren() {
         let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_operator_or_delimiter(')', ' ', ' ', 1);
         match symbol {
@@ -1054,7 +1054,7 @@ mod tests {
     }
 
     #[test]
-    fn operator_or_right_bracket() {
+    fn operator_or_delimiter_right_bracket() {
         let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_operator_or_delimiter(']', ' ', ' ', 1);
         match symbol {
@@ -1064,11 +1064,21 @@ mod tests {
     }
 
     #[test]
-    fn operator_or_right_curly() {
+    fn operator_or_delimiter_right_curly() {
         let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_operator_or_delimiter('}', ' ', ' ', 1);
         match symbol {
             Some( ( TokenSymbol::PyRightCurly(1, 2), 1 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
+
+    #[test]
+    fn operator_or_delimiter_unknown() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter(' ', ' ', ' ', 1);
+        match symbol {
+            None => assert!(true),
             _ => assert!(false)
         }
     }
