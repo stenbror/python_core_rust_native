@@ -722,4 +722,14 @@ mod tests {
             _ => assert!(false)
         }
     }
+
+    #[test]
+    fn operator_or_delimiter_shift_right_assign() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter('>', '>', '=', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyShiftRightAssign(1, 4), 3 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
 }
