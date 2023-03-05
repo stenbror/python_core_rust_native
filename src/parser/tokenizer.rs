@@ -802,4 +802,34 @@ mod tests {
             _ => assert!(false)
         }
     }
+
+    #[test]
+    fn operator_or_delimiter_minus_assign() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter('-', '=', ' ', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyMinusAssign(1, 3), 2 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
+
+    #[test]
+    fn operator_or_delimiter_arrow() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter('-', '>', ' ', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyArrow(1, 3), 2 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
+
+    #[test]
+    fn operator_or_delimiter_minus() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter('-', ' ', ' ', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyMinus(1, 2), 1 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
 }
