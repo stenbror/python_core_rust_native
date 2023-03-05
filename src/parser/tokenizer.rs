@@ -35,6 +35,7 @@ impl Tokenizer for PythonCoreTokenizer {
         Ok(a)
     }
 
+    // Matches reserved keywords and returns token with start and end position.
     fn is_keyword(&self, text: &str, start_pos: u32, end_pos: u32) -> Option<TokenSymbol> {
         match text {
             "False"     => Some(TokenSymbol::PyFalse(start_pos, end_pos)),
@@ -76,6 +77,7 @@ impl Tokenizer for PythonCoreTokenizer {
         }
     }
 
+    // Matches operators or delimiters and returns tuple with token and steps to go forward in buffer.
     fn is_operator_or_delimiter(&self, c1: char, c2: char, c3: char, start_pos: u32) -> Option<(TokenSymbol, u8)> {
         match ( c1, c2, c3 ) {
             ( '*', '*', '=' )   => Some( (TokenSymbol::PyPowerAssign(start_pos, start_pos + 3), 3) ),
@@ -119,6 +121,12 @@ impl Tokenizer for PythonCoreTokenizer {
             ( '=', '=', _ )     => Some( (TokenSymbol::PyEqual(start_pos, start_pos + 2), 2) ),
             ( '=', _ , _ )      => Some( (TokenSymbol::PyAssign(start_pos, start_pos + 1), 1) ),
             ( '!', '=', _ )     => Some( (TokenSymbol::PyNotEqual(start_pos, start_pos + 2), 2) ),
+            ( '(', _ , _ )      => Some( (TokenSymbol::PyLeftParen(start_pos, start_pos + 1), 1) ),
+            ( ')', _ , _ )      => Some( (TokenSymbol::PyRightParen(start_pos, start_pos + 1), 1) ),
+            ( '[', _ , _ )      => Some( (TokenSymbol::PyLeftBracket(start_pos, start_pos + 1), 1) ),
+            ( ']', _ , _ )      => Some( (TokenSymbol::PyRightBracket(start_pos, start_pos + 1), 1) ),
+            ( '{', _ , _ )      => Some( (TokenSymbol::PyLeftCurly(start_pos, start_pos + 1), 1) ),
+            ( '}', _ , _ )      => Some( (TokenSymbol::PyRightCurly(start_pos, start_pos + 1), 1) ),
             _ => None
         }
     }
