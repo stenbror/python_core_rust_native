@@ -108,6 +108,10 @@ impl Tokenizer for PythonCoreTokenizer {
             ( ':', _ , _ )      => Some( (TokenSymbol::PyColon(start_pos, start_pos + 1), 1) ),
             ( '&', '=', _ )     => Some( (TokenSymbol::PyBitAndAssign(start_pos, start_pos + 2), 2) ),
             ( '&', _ , _ )      => Some( (TokenSymbol::PyBitAnd(start_pos, start_pos + 1), 1) ),
+            ( '|', '=', _ )     => Some( (TokenSymbol::PyBitOrAssign(start_pos, start_pos + 2), 2) ),
+            ( '|', _ , _ )      => Some( (TokenSymbol::PyBitOr(start_pos, start_pos + 1), 1) ),
+            ( '^', '=', _ )     => Some( (TokenSymbol::PyBitXorAssign(start_pos, start_pos + 2), 2) ),
+            ( '^', _ , _ )      => Some( (TokenSymbol::PyBitXor(start_pos, start_pos + 1), 1) ),
             _ => None
         }
     }
