@@ -95,6 +95,7 @@ impl Tokenizer for PythonCoreTokenizer {
             ( '>', '=', _ )     => Some( (TokenSymbol::PyGreaterEqual(start_pos, start_pos + 2), 2) ),
             ( '>', _ , _ )      => Some( (TokenSymbol::PyGreater(start_pos, start_pos + 1), 1) ),
             ( '.', '.', '.' )   => Some( (TokenSymbol::PyEllipsis(start_pos, start_pos + 3), 3) ),
+            ( '.', _ , _ )      => Some( (TokenSymbol::PyDot(start_pos, start_pos + 1), 1) ),
             ( '+', '=', _ )     => Some( (TokenSymbol::PyPlusAssign(start_pos, start_pos + 2), 2) ),
             ( '+', _ , _ )      => Some( (TokenSymbol::PyPlus(start_pos, start_pos + 1), 1) ),
             ( '-', '=', _ )     => Some( (TokenSymbol::PyMinusAssign(start_pos, start_pos + 2), 2) ),
