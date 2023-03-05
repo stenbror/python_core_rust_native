@@ -4,14 +4,16 @@ use crate::parser::token::TokenSymbol;
 // Data structure for object ///////////////////////////////////////////////////////////////////////
 
 pub struct PythonCoreTokenizer {
-
+    source_buffer: Box<Vec<char>>,
+    index: u32,
+    tab_size: u8
 }
 
 // Declaration of trait for Tokenizer //////////////////////////////////////////////////////////////
 
 pub trait Tokenizer {
-    fn new() -> PythonCoreTokenizer;
-    fn tokenize(&self, buffer: &str) -> Result<Box<Vec<Box<TokenSymbol>>>, String>;
+    fn new(buffer: String, tab_size: u8) -> PythonCoreTokenizer;
+    fn tokenize(&self) -> Result<Box<Vec<Box<TokenSymbol>>>, String>;
     fn is_keyword(&self, text: &str, start: u32, end: u32) -> Option<TokenSymbol>;
 }
 
@@ -19,13 +21,15 @@ pub trait Tokenizer {
 // Start of implementation of trait Tokenizer //////////////////////////////////////////////////////
 
 impl Tokenizer for PythonCoreTokenizer {
-    fn new() -> PythonCoreTokenizer {
+    fn new(buffer: String, tab_size: u8) -> PythonCoreTokenizer {
         PythonCoreTokenizer {
-
+            source_buffer: Box::new( buffer.chars().collect() ),
+            index: 0,
+            tab_size
         }
     }
 
-    fn tokenize(&self, buffer: &str) -> Result<Box<Vec<Box<TokenSymbol>>>, String> {
+    fn tokenize(&self) -> Result<Box<Vec<Box<TokenSymbol>>>, String> {
         let a = Box::new(Vec::from( [ Box::new(TokenSymbol::PyEof) ] ));
         Ok(a)
     }
@@ -80,7 +84,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_false() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("False", 1, 6);
         match symbol {
             Some(TokenSymbol::PyFalse(s, e)) => {
@@ -93,7 +97,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_none() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("None", 1, 5);
         match symbol {
             Some(TokenSymbol::PyNone(s, e)) => {
@@ -106,7 +110,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_true() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("True", 1, 5);
         match symbol {
             Some(TokenSymbol::PyTrue(s, e)) => {
@@ -119,7 +123,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_and() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("and", 1, 4);
         match symbol {
             Some(TokenSymbol::PyAnd(s, e)) => {
@@ -132,7 +136,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_as() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("as", 1, 3);
         match symbol {
             Some(TokenSymbol::PyAs(s, e)) => {
@@ -145,7 +149,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_assert() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("assert", 1, 7);
         match symbol {
             Some(TokenSymbol::PyAssert(s, e)) => {
@@ -158,7 +162,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_async() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("async", 1, 6);
         match symbol {
             Some(TokenSymbol::PyAsync(s, e)) => {
@@ -171,7 +175,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_await() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("await", 1, 6);
         match symbol {
             Some(TokenSymbol::PyAwait(s, e)) => {
@@ -184,7 +188,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_break() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("break", 1, 6);
         match symbol {
             Some(TokenSymbol::PyBreak(s, e)) => {
@@ -197,7 +201,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_class() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("class", 1, 6);
         match symbol {
             Some(TokenSymbol::PyClass(s, e)) => {
@@ -210,7 +214,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_continue() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("continue", 1, 9);
         match symbol {
             Some(TokenSymbol::PyContinue(s, e)) => {
@@ -223,7 +227,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_def() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("def", 1, 4);
         match symbol {
             Some(TokenSymbol::PyDef(s, e)) => {
@@ -236,7 +240,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_del() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("del", 1, 4);
         match symbol {
             Some(TokenSymbol::PyDel(s, e)) => {
@@ -249,7 +253,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_elif() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("elif", 1, 5);
         match symbol {
             Some(TokenSymbol::PyElif(s, e)) => {
@@ -262,7 +266,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_else() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("else", 1, 5);
         match symbol {
             Some(TokenSymbol::PyElse(s, e)) => {
@@ -275,7 +279,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_except() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("except", 1, 7);
         match symbol {
             Some(TokenSymbol::PyExcept(s, e)) => {
@@ -288,7 +292,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_finally() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("finally", 1, 8);
         match symbol {
             Some(TokenSymbol::PyFinally(s, e)) => {
@@ -301,7 +305,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_for() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("for", 1, 4);
         match symbol {
             Some(TokenSymbol::PyFor(s, e)) => {
@@ -314,7 +318,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_from() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("from", 1, 5);
         match symbol {
             Some(TokenSymbol::PyFrom(s, e)) => {
@@ -327,7 +331,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_global() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("global", 1, 7);
         match symbol {
             Some(TokenSymbol::PyGlobal(s, e)) => {
@@ -340,7 +344,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_if() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("if", 1, 3);
         match symbol {
             Some(TokenSymbol::PyIf(s, e)) => {
@@ -353,7 +357,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_import() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("import", 1, 7);
         match symbol {
             Some(TokenSymbol::PyImport(s, e)) => {
@@ -366,7 +370,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_in() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("in", 1, 3);
         match symbol {
             Some(TokenSymbol::PyIn(s, e)) => {
@@ -379,7 +383,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_is() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("is", 1, 3);
         match symbol {
             Some(TokenSymbol::PyIs(s, e)) => {
@@ -392,7 +396,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_lambda() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("lambda", 1, 7);
         match symbol {
             Some(TokenSymbol::PyLambda(s, e)) => {
@@ -405,7 +409,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_nonlocal() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("nonlocal", 1, 9);
         match symbol {
             Some(TokenSymbol::PyNonlocal(s, e)) => {
@@ -418,7 +422,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_not() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("not", 1, 4);
         match symbol {
             Some(TokenSymbol::PyNot(s, e)) => {
@@ -431,7 +435,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_or() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("or", 1, 3);
         match symbol {
             Some(TokenSymbol::PyOr(s, e)) => {
@@ -444,7 +448,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_pass() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("pass", 1, 5);
         match symbol {
             Some(TokenSymbol::PyPass(s, e)) => {
@@ -457,7 +461,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_raise() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("raise", 1, 6);
         match symbol {
             Some(TokenSymbol::PyRaise(s, e)) => {
@@ -470,7 +474,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_return() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("return", 1, 7);
         match symbol {
             Some(TokenSymbol::PyReturn(s, e)) => {
@@ -483,7 +487,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_try() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("try", 1, 4);
         match symbol {
             Some(TokenSymbol::PyTry(s, e)) => {
@@ -496,7 +500,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_while() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("while", 1, 6);
         match symbol {
             Some(TokenSymbol::PyWhile(s, e)) => {
@@ -509,7 +513,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_with() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("with", 1, 5);
         match symbol {
             Some(TokenSymbol::PyWith(s, e)) => {
@@ -522,7 +526,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_yield() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("yield", 1, 6);
         match symbol {
             Some(TokenSymbol::PyYield(s, e)) => {
@@ -535,7 +539,7 @@ mod tests {
 
     #[test]
     fn reserved_keyword_not_a_keyword() {
-        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new();
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
         let symbol = lexer.is_keyword("__init__", 1, 9);
         match symbol {
             None => assert!(true),
