@@ -872,4 +872,24 @@ mod tests {
             _ => assert!(false)
         }
     }
+
+    #[test]
+    fn operator_or_delimiter_colon_assign() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter(':', '=', ' ', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyColonAssign(1, 3), 2 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
+
+    #[test]
+    fn operator_or_delimiter_colon() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter(':', ' ', ' ', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyColon(1, 2), 1 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
 }
