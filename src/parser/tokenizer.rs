@@ -1042,4 +1042,34 @@ mod tests {
             _ => assert!(false)
         }
     }
+
+    #[test]
+    fn operator_or_right_paren() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter(')', ' ', ' ', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyRightParen(1, 2), 1 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
+
+    #[test]
+    fn operator_or_right_bracket() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter(']', ' ', ' ', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyRightBracket(1, 2), 1 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
+
+    #[test]
+    fn operator_or_right_curly() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter('}', ' ', ' ', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyRightCurly(1, 2), 1 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
 }
