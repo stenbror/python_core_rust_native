@@ -702,4 +702,14 @@ mod tests {
             _ => assert!(false)
         }
     }
+
+    #[test]
+    fn operator_or_delimiter_less_equal() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter('<', '=', ' ', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyLessEqual(1, 3), 2 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
 }
