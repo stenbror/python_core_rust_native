@@ -1002,4 +1002,14 @@ mod tests {
             _ => assert!(false)
         }
     }
+
+    #[test]
+    fn operator_or_delimiter_comma() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter(',', ' ', ' ', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyComma(1, 2), 1 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
 }
