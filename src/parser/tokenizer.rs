@@ -752,4 +752,14 @@ mod tests {
             _ => assert!(false)
         }
     }
+
+    #[test]
+    fn operator_or_delimiter_greater() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter('>', ' ', ' ', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyGreater(1, 2), 1 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
 }
