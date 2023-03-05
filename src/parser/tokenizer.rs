@@ -100,6 +100,8 @@ impl Tokenizer for PythonCoreTokenizer {
             ( '-', '=', _ )     => Some( (TokenSymbol::PyMinusAssign(start_pos, start_pos + 2), 2) ),
             ( '-', '>', _ )     => Some( (TokenSymbol::PyArrow(start_pos, start_pos + 2), 2) ),
             ( '-', _ , _ )      => Some( (TokenSymbol::PyMinus(start_pos, start_pos + 1), 1) ),
+            ( '%', '=', _ )     => Some( (TokenSymbol::PyModuloAssign(start_pos, start_pos + 2), 2) ),
+            ( '%', _ , _ )      => Some( (TokenSymbol::PyModulo(start_pos, start_pos + 1), 1) ),
             _ => None
         }
     }
