@@ -82,6 +82,10 @@ impl Tokenizer for PythonCoreTokenizer {
             ( '*', '*', _ )     => Some( (TokenSymbol::PyPower(start_pos,start_pos + 2), 2) ),
             ( '*', '=', _ )     => Some( (TokenSymbol::PyMulAssign(start_pos,start_pos + 2), 2) ),
             ( '*', _ , _ )      => Some( (TokenSymbol::PyMul(start_pos,start_pos + 1), 1) ),
+            ( '/', '/', '=' )   => Some( (TokenSymbol::PyFloorDivAssign(start_pos,start_pos + 3), 3) ),
+            ( '/', '/', _ )     => Some( (TokenSymbol::PyFloorDiv(start_pos,start_pos + 2), 2) ),
+            ( '/', '=', _ )     => Some( (TokenSymbol::PyDivAssign(start_pos,start_pos + 2), 2) ),
+            ( '/', _ , _ )      => Some( (TokenSymbol::PyDiv(start_pos,start_pos + 1), 1) ),
             _ => None
         }
     }
