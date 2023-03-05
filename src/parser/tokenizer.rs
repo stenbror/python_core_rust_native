@@ -892,4 +892,24 @@ mod tests {
             _ => assert!(false)
         }
     }
+
+    #[test]
+    fn operator_or_delimiter_bit_and_assign() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter('&', '=', ' ', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyBitAndAssign(1, 3), 2 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
+
+    #[test]
+    fn operator_or_delimiter_bit_and() {
+        let lexer : PythonCoreTokenizer = PythonCoreTokenizer::new(String::from("Unused!"), 4);
+        let symbol = lexer.is_operator_or_delimiter('&', ' ', ' ', 1);
+        match symbol {
+            Some( ( TokenSymbol::PyBitAnd(1, 2), 1 ) ) => assert!(true),
+            _ => assert!(false)
+        }
+    }
 }
